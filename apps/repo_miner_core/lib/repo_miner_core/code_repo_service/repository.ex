@@ -9,12 +9,12 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
 
   schema "repositories" do
     field(:username, :string)
-    field(:provider, :string)
+    field(:provider, Ecto.Enum, values: [:github])
     field(:repository_name, :string)
     field(:url, :string)
     # has_many :branches, , foreign_key: :repository_id
-    # has_one :status, , foreign_key: :repository_id
-    # has_one :handle 
+    # has_one :status, RepoMinerCore.CodeRepoService.Status
+    belongs_to(:handle, RepoMinerCore.UserService.User, foreign_key: :handle_id)
     timestamps()
   end
 
@@ -22,7 +22,7 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
 
   def changeset(repository, attrs \\ %{}) do
     repository
-    |> cast(attrs, [:username, :provider, :repository_name, :url])
+    |> cast(attrs, [:username, :provider, :repository_name, :url, :handle_id])
     |> validate_required([:username, :provider, :repository_name, :url])
   end
 end

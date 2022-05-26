@@ -1,5 +1,5 @@
 defmodule RepoMinerCore.CodeRepoService.Branches do
-   @moduledoc """
+  @moduledoc """
   This module is the Schema of the Table Branches.
   Has the reltions to oter tables and the valdidations for the fields.
   """

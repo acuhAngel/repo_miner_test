@@ -1,5 +1,5 @@
 defmodule RepoMinerCore.CodeRepoService.Commits do
-   @moduledoc """
+  @moduledoc """
   This module is the Schema of the Table Commits.
   Has the reltions to oter tables and the valdidations for the fields.
   """

@@ -8,10 +8,10 @@ defmodule RepoMinerCore.UserService.User do
   import Ecto.Changeset
 
   schema "users" do
-    field(:hanlde, :string)
+    field(:handle, :string)
     field(:email, :string)
     field(:role, Ecto.Enum, values: [:admin, :collaborator])
-    # has_many :repository, Repository
+    has_many(:repository, RepoMinerCore.CodeRepoService.Repository, foreign_key: :handle_id)
     timestamps()
   end
 

@@ -8,7 +8,7 @@ defmodule RepoMinerCore.CodeRepoService.Status do
 
   schema "status" do
     field(:state, Ecto.Enum, values: [:ready, :pending, :error])
-    # belongs to repositories
+    belongs_to(:repository, RepoMinerCore.CodeRepoService.Repository)
     timestamps()
   end
 
