@@ -1,4 +1,7 @@
 defmodule RepoMinerCore.Application do
+   @moduledoc """
+  This module start a supervsion tree to ecto.
+  """
   use Application
   @impl true
   def start(_type, _args) do

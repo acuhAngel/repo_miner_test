@@ -13,8 +13,9 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
     field(:repository_name, :string)
     field(:url, :string)
     # has_many :branches, , foreign_key: :repository_id
-    # has_one :status, RepoMinerCore.CodeRepoService.Status
+    has_one(:status, RepoMinerCore.CodeRepoService.Status)
     belongs_to(:handle, RepoMinerCore.UserService.User, foreign_key: :handle_id)
+    has_one(:commits_density, RepoMinerCore.CodeRepoService.CommitsDensity)
     timestamps()
   end
 
