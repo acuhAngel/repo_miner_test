@@ -9,6 +9,8 @@
 # move said applications out of the umbrella.
 import Config
 
+config :repo_miner_analysis, :pool_size, 10
+
 import_config "../apps/repo_miner_web/config/config.exs"
 
 # Sample configuration:
