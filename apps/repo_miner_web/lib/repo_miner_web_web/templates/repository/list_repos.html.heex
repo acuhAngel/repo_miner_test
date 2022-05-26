@@ -36,8 +36,8 @@
                     <td>ready</td>
                     <td> 
                         <a href= "#"> Show / </a>
-                        <a href= "#"> Analyse Again / </a> 
-                        <a href= "#"> Delete </a>  
+                        <%= link "Analyse Again", to: Routes.repository_path(@conn, :again_analysis)%> 
+                        <a href= "#"> Delete </a> 
                     </td>
                   </tr>
 
