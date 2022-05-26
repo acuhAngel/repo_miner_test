@@ -1,5 +1,5 @@
 defmodule RepoMinerCore.Application do
-   @moduledoc """
+  @moduledoc """
   This module start a supervsion tree to ecto.
   """
   use Application
