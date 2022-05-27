@@ -11,6 +11,14 @@ import Config
 
 config :repo_miner_analysis, :pool_size, 10
 
+config :amqp,
+  connections: [
+    conn: [url: "amqp://guest:guest@localhost"]
+  ],
+  channels: [
+    chan: [connection: :conn]
+  ]
+
 import_config "../apps/repo_miner_web/config/config.exs"
 
 # Sample configuration:

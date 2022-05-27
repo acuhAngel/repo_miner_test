@@ -48,7 +48,8 @@ defmodule RepoMinerWeb.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:repo_miner_core, in_umbrella: true}
+      {:repo_miner_core, in_umbrella: true},
+      {:amqp, "~> 3.1"}
     ]
   end
 
