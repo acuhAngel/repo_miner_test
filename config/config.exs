@@ -9,7 +9,16 @@
 # move said applications out of the umbrella.
 import Config
 
-import_config "../apps/repo_miner_core/config/config.exs"
+config :repo_miner_analysis, :pool_size, 10
+
+config :amqp,
+  connections: [
+    conn: [url: "amqp://guest:guest@localhost"]
+  ],
+  channels: [
+    chan: [connection: :conn]
+  ]
+
 import_config "../apps/repo_miner_web/config/config.exs"
 
 config :repo_miner_analysis, :pool_size, 10

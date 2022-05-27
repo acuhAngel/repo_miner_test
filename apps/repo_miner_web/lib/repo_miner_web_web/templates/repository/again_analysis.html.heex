@@ -1,0 +1,5 @@
+<h1>Analyze Again</h1>
+
+<%= render "form_analysis.html", Map.put(assigns, :action, Routes.repository_path(@conn, :create_again_analysis)) %>
+
+<span><%= link "Back", to: Routes.repository_path(@conn, :list_repos) %></span>
