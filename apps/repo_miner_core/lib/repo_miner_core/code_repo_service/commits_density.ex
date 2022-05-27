@@ -9,6 +9,7 @@ defmodule RepoMinerCore.CodeRepoService.CommitsDensity do
   schema "commits_density" do
     field(:year, :integer)
     field(:month, :integer)
+    field(:commits_count, :integer)
     belongs_to(:repository, RepoMinerCore.CodeRepoService.Repository)
     timestamps()
   end
