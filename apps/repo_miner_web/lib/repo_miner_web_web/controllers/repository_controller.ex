@@ -13,7 +13,7 @@ defmodule RepoMinerWebWeb.RepositoryController do
   end
 
   def create_analysis(conn, _params) do
-    render(conn, "new_analysis.hmtl")
+    render(conn, "show_analysis.hmtl")
   end
 
   def again_analysis(conn, _params) do
@@ -21,6 +21,18 @@ defmodule RepoMinerWebWeb.RepositoryController do
   end
 
   def create_again_analysis(conn, _params) do
-    render(conn, "again_analysis.hmtl")
+    render(conn, "show_analysis.hmtl")
+  end
+
+  def show_analysis(conn, _params) do
+    render(conn, "show_analysis.html")
+  end
+
+  def list_commit_user(conn, _params) do
+    render(conn, "list_commit_user.html")
+  end
+
+  def list_commit_density(conn, _params) do
+    render(conn, "list_commit_density.html")
   end
 end
