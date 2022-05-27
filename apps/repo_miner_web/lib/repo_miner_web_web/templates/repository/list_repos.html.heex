@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;900&display=swap" rel="stylesheet"/>    
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/repository_css/style.css")}/>
+  </head><h1>Listing Repositories</h1>
+
+  <body>
+    <section>
+      <main>
+        <div id="card">
+          <div id="container">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Provider</th>
+                  <th>Username</th>
+                  <th>Repo</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>MachinesAreus</td>
+                    <td>GitHub</td>
+                    <td>MachinesAreus</td>
+                    <td>pet_store</td>
+                    <td>ready</td>
+                    <td> 
+                        <%= link "Show / ", to: Routes.repository_path(@conn, :show_analysis)%> 
+                        <%= link "Analyse Again / ", to: Routes.repository_path(@conn, :again_analysis)%> 
+                        <a href= "#"> Delete </a> 
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>MachinesAreus</td>
+                    <td>GitHub</td>
+                    <td>MachinesAreus</td>
+                    <td>pet_store</td>
+                    <td>pending</td>
+                    <td> 
+                        <a href= "#"> Cancel</a>
+                          
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </section>
+  </body>
+
+
+</html>

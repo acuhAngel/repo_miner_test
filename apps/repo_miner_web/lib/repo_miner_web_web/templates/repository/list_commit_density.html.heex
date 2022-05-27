@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;900&display=swap" rel="stylesheet"/>    
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/repository_css/style.css")}/>
+  </head><h1>List Commits Density Repo ...</h1>
+
+  <body>
+    <div class="back">
+        <span><%= link "<= Back", to: Routes.repository_path(@conn, :show_analysis) %></span>
+    </div>  
+    <section>
+      <main>
+        <div id="card">
+          <div id="container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Month</th>
+                  <th>Commits</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>2020</td>
+                    <td>June</td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <td>2020</td>
+                    <td>September</td>
+                    <td>13</td>
+                  </tr>
+                  <tr>
+                    <td>2021</td>
+                    <td>January</td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <td>2021</td>
+                    <td>October</td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <td>2022</td>
+                    <td>March</td>
+                    <td>11</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </section>
+  </body>
+</html>
