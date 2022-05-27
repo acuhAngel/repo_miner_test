@@ -15,7 +15,7 @@ defmodule RepoMinerAnalysis.Worker do
   @queue_error "#{@queue}_error"
 
   def init(_) do
-    {:ok, connection} = Connection.open()
+    {:ok, connection} = AMQP.Application.get_connection(:conn)
     {:ok, channel} = Channel.open(connection)
     setup_queue(channel)
     {:ok, _consumer_tag} = Basic.consume(channel, @queue)
