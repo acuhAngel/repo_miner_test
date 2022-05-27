@@ -17,7 +17,7 @@ defmodule RepoMinerCore.CodeRepoService.Branches do
 
   def changeset(branch, attrs \\ %{}) do
     branch
-    |> cast(attrs, [:branch, :commits_count, :repository_id])
-    |> validate_required([:branch, :repository_id])
+    |> cast(attrs, [:name, :commits_count, :repository_id])
+    |> validate_required([:name, :repository_id])
   end
 end
