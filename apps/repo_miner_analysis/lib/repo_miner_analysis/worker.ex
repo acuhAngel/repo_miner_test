@@ -4,43 +4,48 @@ defmodule RepoMinerAnalysis.Worker do
   """
 
   use GenServer
+  use AMQP
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil)
   end
 
+  @exchange "repo_miner_exchange"
+  @queue "repo_miner_queue"
+
   def init(_) do
-    {:ok, :ready}
+    {:ok, connection} = AMQP.Application.get_connection(:conn)
+    {:ok, channel} = Channel.open(connection)
+    setup_queue(channel)
+    {:ok, _consumer_tag} = Basic.consume(channel, @queue)
+    {:ok, channel}
   end
 
-  def handle_cast(
-        {:analyze,
-         %{
-           provider: _provider,
-           username: _username,
-           repo: _repo,
-           visibility: :public
-         }},
-        _state
-      ) do
-    IO.puts("Analyzing public repo")
-    Process.sleep(1000)
-    {:noreply, :ready}
+  # Confirmation sent by the broker after registering this process as a consumer
+  def handle_info({:basic_consume_ok, %{consumer_tag: _consumer_tag}}, chan) do
+    {:noreply, chan}
   end
 
-  def handle_cast(
-        {:analyze,
-         %{
-           provider: _provider,
-           username: _username,
-           repo: _repo,
-           visibility: :private,
-           token: _token
-         }},
-        _state
+  def handle_info(
+        {:basic_deliver, payload, %{delivery_tag: tag, redelivered: redelivered}},
+        channel
       ) do
-    IO.puts("Analyzing private repo")
-    Process.sleep(1000)
-    {:no_reply, :ok}
+    consume_payload(channel, payload, redelivered, tag)
+  end
+
+  defp setup_queue(channel) do
+    {:ok, _} = Queue.declare(channel, @queue)
+    :ok = Exchange.fanout(channel, @exchange)
+    :ok = Queue.bind(channel, @queue, @exchange)
+  end
+
+  defp consume_payload(channel, _payload, _redelivered, tag) do
+    :ok = Basic.ack(channel, tag)
+
+    # Here is where repo_miner_py will be called
+
+    IO.puts("Consumed payload. #{inspect(self())}")
+    Process.sleep(10_000)
+    {:noreply, channel}
   end
 end
