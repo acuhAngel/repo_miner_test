@@ -18,7 +18,9 @@ defmodule RepoMinerCore.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      mod: {RepoMinerCore.Application, []},
+      extra_applications: [:logger],
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -28,7 +30,13 @@ defmodule RepoMinerCore.MixProject do
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true}
-      {:ecto, "~> 3.8"}
+      {:ecto, "~> 3.8"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end

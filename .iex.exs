@@ -1,0 +1,7 @@
+alias RepoMinerCore.Repo
+alias RepoMinerCore.UserService.User
+alias RepoMinerCore.CodeRepoService.Repository
+alias RepoMinerCore.CodeRepoService.Status
+alias RepoMinerCore.CodeRepoService.CommitsDensity
+alias RepoMinerCore.CodeRepoService.Branches
+
