@@ -12,7 +12,6 @@ defmodule RepoMinerAnalysis.Worker do
 
   @exchange "repo_miner_exchange"
   @queue "repo_miner_queue"
-  @queue_error "#{@queue}_error"
 
   def init(_) do
     {:ok, connection} = AMQP.Application.get_connection(:conn)
@@ -35,7 +34,7 @@ defmodule RepoMinerAnalysis.Worker do
   end
 
   defp setup_queue(channel) do
-    {:ok, _} = Queue.declare(channel, @queue_error)
+    {:ok, _} = Queue.declare(channel, @queue)
     :ok = Exchange.fanout(channel, @exchange)
     :ok = Queue.bind(channel, @queue, @exchange)
   end
