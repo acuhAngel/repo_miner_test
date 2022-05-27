@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;900&display=swap" rel="stylesheet"/>    
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/repository_css/style.css")}/>
+  </head><h1>Repository Analsysis</h1>
+
+  <body>
+    <div class="back">
+        <span><%= link "<= Back", to: Routes.repository_path(@conn, :list_repos) %></span>
+    </div> 
+    <section>
+      <main>
+        <div id="card">
+          <div id="container">
+              <h2>Repository Name: Pet Clinic </h2>
+              <h2> Username: tanii11 </h2>
+
+              <div class="cd cd_content">
+                <div class="options opt">
+                  <strong> URL </strong>
+                  <p>https://gitlab.com/caleb-j-acosta/repo_miner</p>
+                </div>
+                 <div class="options opt">
+                  <strong> Number Commits </strong>
+                  <p> 230 commits</p>
+                </div>
+              </div>  
+
+              <div class="cd cd_branches opt">
+                  <strong> Branches </strong>
+                  <p>pet, owner, expert, appointment, specialites, appointment_service</p>
+              </div>
+
+              <div class="cd cd_content mb">
+                <div class="text_button">
+                    <%= link "View list commit user", to: Routes.repository_path(@conn, :list_commit_user), class: "button"%> 
+                </div>
+                <div class="text_button">
+                    <%= link "View list commits density", to: Routes.repository_path(@conn, :list_commit_density), class: "button"%> 
+                </div>
+              </div>   
+          </div>
+        </div>
+      </main>
+    </section>
+  </body>
+
+</html>
