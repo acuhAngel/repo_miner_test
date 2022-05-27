@@ -11,7 +11,7 @@ import Config
 
 import_config "../apps/repo_miner_core/config/config.exs"
 import_config "../apps/repo_miner_web/config/config.exs"
-
+import_config "../apps/repo_miner_web/config/config.exs"
 config :repo_miner_analysis, :pool_size, 10
 
 # Sample configuration:
