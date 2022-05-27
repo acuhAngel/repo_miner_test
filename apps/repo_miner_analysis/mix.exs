@@ -30,6 +30,7 @@ defmodule RepoMinerAnalysis.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true}
       {:poolboy, "~> 1.5"},
+      {:amqp, "~> 3.1"},
       {:repo_miner_core, in_umbrella: true}
     ]
   end
