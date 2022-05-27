@@ -18,6 +18,7 @@ defmodule RepoMinerWebWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/repos", RepositoryController, :list_repos
   end
 
   # Other scopes may use custom stacks.
