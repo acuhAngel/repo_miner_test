@@ -3,6 +3,7 @@ defmodule RepoMinerCore.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
+      add :name,   :string
       add :handle,  :string
       add :email,   :string
       add :role,    :string
