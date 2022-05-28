@@ -12,10 +12,11 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
     field(:provider, Ecto.Enum, values: [:github])
     field(:repository_name, :string)
     field(:url, :string)
-    # has_many :branches, , foreign_key: :repository_id
+    belongs_to(:user, RepoMinerCore.UserService.User)
+    has_many(:branches, RepoMinerCore.CodeRepoService.Branches)
     has_one(:status, RepoMinerCore.CodeRepoService.Status)
-    belongs_to(:handle, RepoMinerCore.UserService.User, foreign_key: :handle_id)
-    has_one(:commits_density, RepoMinerCore.CodeRepoService.CommitsDensity)
+    has_many(:commits_density, RepoMinerCore.CodeRepoService.CommitsDensity)
+    has_many(:user_commits, RepoMinerCore.CodeRepoService.UserCommits)
     timestamps()
   end
 

@@ -3,7 +3,7 @@ defmodule RepoMinerCore.Repo.Migrations.RelateUsersWithRepositories do
 
   def change do
     alter table("repositories") do
-      add :handle_id, references("users")
+      add :user_id, references("users")
     end
   end
 end
