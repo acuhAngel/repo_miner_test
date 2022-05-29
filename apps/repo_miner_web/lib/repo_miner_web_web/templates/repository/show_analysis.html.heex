@@ -19,13 +19,13 @@
       <main>
         <div id="card">
           <div id="container">
-              <h2>Repository Name: Pet Clinic </h2>
-              <h2> Username: tanii11 </h2>
+              <h2>Repository Name:  <%= @repository.repository_name %> </h2>
+              <h2> Username:  <%= @repository.username %> </h2>
 
               <div class="cd cd_content">
                 <div class="options opt">
                   <strong> URL </strong>
-                  <p>https://gitlab.com/caleb-j-acosta/repo_miner</p>
+                  <p><%= @repository.url %></p>
                 </div>
                  <div class="options opt">
                   <strong> Number Commits </strong>
@@ -33,17 +33,19 @@
                 </div>
               </div>  
 
-              <div class="cd cd_branches opt">
-                  <strong> Branches </strong>
-                  <p>pet, owner, expert, appointment, specialites, appointment_service</p>
-              </div>
+              <label> Branches </label>
+              <%= for branch <- @branches do %>
+                <div class="cd cd_branches opt">
+                  <p><%= branch.name %></p>
+                </div>
+              <% end %>
 
               <div class="cd cd_content mb">
                 <div class="text_button">
-                    <%= link "View list commit user", to: Routes.repository_path(@conn, :list_commit_user), class: "button"%> 
+                    <%= link "View list commit user", to: Routes.repository_path(@conn, :list_commit_user, @repository.id), class: "button"%> 
                 </div>
                 <div class="text_button">
-                    <%= link "View list commits density", to: Routes.repository_path(@conn, :list_commit_density), class: "button"%> 
+                    <%= link "View list commits density", to: Routes.repository_path(@conn, :list_commit_density, @repository.id), class: "button"%> 
                 </div>
               </div>   
           </div>

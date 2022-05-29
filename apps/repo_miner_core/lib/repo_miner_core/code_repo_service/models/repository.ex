@@ -24,7 +24,7 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
 
   def changeset(repository, attrs \\ %{}) do
     repository
-    |> cast(attrs, [:username, :provider, :repository_name, :url, :handle_id])
+    |> cast(attrs, [:username, :provider, :repository_name, :url, :user_id])
     |> validate_required([:username, :provider, :repository_name, :url])
   end
 end
