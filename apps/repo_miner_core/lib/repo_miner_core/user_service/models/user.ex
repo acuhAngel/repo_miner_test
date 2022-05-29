@@ -20,7 +20,7 @@ defmodule RepoMinerCore.UserService.User do
 
   def changeset(user, attrs \\ %{}) do
     user
-    |> cast(attrs, [:handle, :email, :role])
+    |> cast(attrs, [:handle, :email, :role, :name, :role])
     |> validate_required([:handle, :email, :role])
   end
 end
