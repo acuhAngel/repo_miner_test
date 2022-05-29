@@ -1,4 +1,4 @@
-defmodule RepoMinerCore.CodeRepoService.Status do
+defmodule RepoMinerCore.CodeRepoService.Statuses do
   @moduledoc """
   This module is the Schema of the Table Status.
   Has the reltions to oter tables and the valdidations for the fields.
@@ -6,17 +6,17 @@ defmodule RepoMinerCore.CodeRepoService.Status do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "status" do
-    field(:state, Ecto.Enum, values: [:ready, :pending, :error])
+  schema "statuses" do
+    field(:status, Ecto.Enum, values: [:ready, :pending, :error])
     belongs_to(:repository, RepoMinerCore.CodeRepoService.Repository)
     timestamps()
   end
 
   @doc false
 
-  def changeset(status, attrs \\ %{}) do
+  def changeset(status, attrs) do
     status
-    |> cast(attrs, [:state])
-    |> validate_required([:state])
+    |> cast(attrs, [:repository_id, :status])
+    |> validate_required([:repository_id, :status])
   end
 end
