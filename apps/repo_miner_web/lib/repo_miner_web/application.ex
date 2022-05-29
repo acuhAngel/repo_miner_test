@@ -13,9 +13,11 @@ defmodule RepoMinerWeb.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: RepoMinerWeb.PubSub},
       # Start the Endpoint (http/https)
-      RepoMinerWebWeb.Endpoint
+      RepoMinerWebWeb.Endpoint,
       # Start a worker by calling: RepoMinerWeb.Worker.start_link(arg)
       # {RepoMinerWeb.Worker, arg}
+      # RepoMiner RabbitMQ producer
+      {RepoMinerWeb.Producer, name: AMQPSender}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
