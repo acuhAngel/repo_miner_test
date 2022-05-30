@@ -6,16 +6,17 @@ defmodule RepoMinerCore.CodeRepoService.StatusService do
   alias RepoMinerCore.Repo
   alias RepoMinerCore.CodeRepoService.Status
 
-  def get_status!(id) do
-    Repo.all(from(s in Status, where: s.repository_id == ^id))
+  def get_status!(repo_id) do
+    status = Repo.get_by(Status, repository_id: repo_id)
+    status.state
   end
 
   @doc """
-  Returns the list of commits_densities.
+  Returns the list of status.
 
   ## Examples
 
-      iex> list_commits_densities()
+      iex> list_status()
       [%Commits_Density{}, ...]
 
   """

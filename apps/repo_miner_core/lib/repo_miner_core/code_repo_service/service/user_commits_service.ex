@@ -6,8 +6,8 @@ defmodule RepoMinerCore.CodeRepoService.UserCommitsService do
   alias RepoMinerCore.Repo
   alias RepoMinerCore.CodeRepoService.UserCommits
 
-  def get_user_commits!(id) do
-    Repo.all(from(u in UserCommits, where: u.repository_id == ^id))
+  def get_user_commits!(repo_id) do
+    Repo.all(from(u in UserCommits, where: u.repository_id == ^repo_id))
   end
 
   @doc """
