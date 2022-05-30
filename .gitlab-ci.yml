@@ -1,4 +1,4 @@
-image: 'calebacosta/rabbitmq_elixir'
+image: 'calebacosta/rabbitmq_elixir:python-alpine'
 
 services:
   - postgres:9.6
@@ -16,11 +16,7 @@ before_script:
   - mix deps.clean --all
   - mix deps.get --only test
   - mix deps.get
-  - rabbitmqadmin -u guest -p guest -V / declare exchange name=repo_miner_exchange type=fanout durable=false 
-  - rabbitmqadmin -u guest -p guest -V / declare queue name=repo_miner_queue
-  - rabbitmqadmin -u guest -p guest -V / declare binding source=repo_miner_exchange destination=repo_miner_queue
-
-
+  - pip install pydriller==2.1 erlport==0.6
 stages:
   - build
   - quality
