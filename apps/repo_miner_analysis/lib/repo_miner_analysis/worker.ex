@@ -18,19 +18,20 @@ defmodule RepoMinerAnalysis.Worker do
     {:ok, channel} = Channel.open(connection)
     setup_queue(channel)
     {:ok, _consumer_tag} = Basic.consume(channel, @queue)
-    {:ok, channel}
+    {:ok, miner_py_pid} = RepoMinerPy.RepoMiner.start_link(name: nil)
+    {:ok, %{channel: channel, miner_py_pid: miner_py_pid}}
   end
 
   # Confirmation sent by the broker after registering this process as a consumer
-  def handle_info({:basic_consume_ok, %{consumer_tag: _consumer_tag}}, chan) do
-    {:noreply, chan}
+  def handle_info({:basic_consume_ok, %{consumer_tag: _consumer_tag}}, state) do
+    {:noreply, state}
   end
 
   def handle_info(
         {:basic_deliver, payload, %{delivery_tag: tag, redelivered: redelivered}},
-        channel
+        state
       ) do
-    consume_payload(channel, payload, redelivered, tag)
+    consume_payload(state, payload, redelivered, tag)
   end
 
   defp setup_queue(channel) do
@@ -39,13 +40,27 @@ defmodule RepoMinerAnalysis.Worker do
     :ok = Queue.bind(channel, @queue, @exchange)
   end
 
-  defp consume_payload(channel, _payload, _redelivered, tag) do
-    :ok = Basic.ack(channel, tag)
+  defp consume_payload(state, payload, _redelivered, tag) do
+    :ok = Basic.ack(state.channel, tag)
+    repo_map = Jason.decode!(payload)
 
-    # Here is where repo_miner_py will be called
+    result =
+      GenServer.call(
+        state.miner_py_pid,
+        {:analyze, repo_url: repo_map["repo_url"], token: repo_map["token"]},
+        60_000
+      )
 
-    IO.puts("Consumed payload. #{inspect(self())}")
-    Process.sleep(10_000)
-    {:noreply, channel}
+    case result do
+      {:ok, _repo_info} ->
+        # Write result and successful state to database
+        :ok
+
+      {:error, _error_msg} ->
+        # write error state to database
+        :error
+    end
+
+    {:noreply, state}
   end
 end

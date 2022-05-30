@@ -14,6 +14,7 @@ defmodule RepoMinerWeb.Producer do
 
   def send(pid, action, repo_inf) do
     GenServer.cast(pid, {action, repo_inf})
+    :ok
   end
 
   def init(_) do
@@ -27,6 +28,6 @@ defmodule RepoMinerWeb.Producer do
   def handle_cast({:analyze, repo_inf}, channel) do
     repo_inf = Jason.encode!(repo_inf)
     Basic.publish(channel, @exchange, "", repo_inf)
-    {:noreply, :ok}
+    {:noreply, channel}
   end
 end
