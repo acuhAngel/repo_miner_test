@@ -8,5 +8,8 @@ alias RepoMinerCore.CodeRepoService.UserCommits
 alias RepoMinerCore.CodeRepoService.UserCommitsService
 alias RepoMinerCore.CodeRepoService.RepositoryService
 alias RepoMinerCore.CodeRepoService.CommitsDensityService
+alias RepoMinerCore.CodeRepoService.BranchesService
+
+alias RepoMinerCore.UserService
 
 
