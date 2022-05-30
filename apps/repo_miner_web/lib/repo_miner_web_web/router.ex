@@ -17,7 +17,9 @@ defmodule RepoMinerWebWeb.Router do
   scope "/", RepoMinerWebWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
+    get "/", RepositoryController, :list_repos
+
     get "/repos", RepositoryController, :list_repos
     get "/new_analysis", RepositoryController, :new_analysis
     post "/repos", RepositoryController, :create_analysis
@@ -26,6 +28,9 @@ defmodule RepoMinerWebWeb.Router do
     get "/show_analysis/:id", RepositoryController, :show_analysis
     get "/list_commit_user/:id", RepositoryController, :list_commit_user
     get "/list_commit_density/:id", RepositoryController, :list_commit_density
+
+    resources "/users", UserController
+    # get "/users", UserController, :index
   end
 
   # Other scopes may use custom stacks.

@@ -49,7 +49,8 @@ defmodule RepoMinerWeb.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:repo_miner_core, in_umbrella: true},
-      {:amqp, "~> 3.1"}
+      {:amqp, "~> 3.1"},
+      {:phoenix_ecto, "~> 4.4"}
     ]
   end
 
