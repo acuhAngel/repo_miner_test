@@ -46,6 +46,9 @@ defmodule RepoMinerWebWeb.RepositoryController do
     repository = RepositoryService.get_repository!(id)
     commits_density = CommitsDensityService.get_commits_density!(repository.id)
 
-    render(conn, "list_commit_density.html", repository: repository, commits_density: commits_density)
+    render(conn, "list_commit_density.html",
+      repository: repository,
+      commits_density: commits_density
+    )
   end
 end
