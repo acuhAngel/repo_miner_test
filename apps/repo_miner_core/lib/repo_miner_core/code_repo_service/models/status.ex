@@ -16,7 +16,7 @@ defmodule RepoMinerCore.CodeRepoService.Status do
 
   def changeset(status, attrs \\ %{}) do
     status
-    |> cast(attrs, [:state])
-    |> validate_required([:state])
+    |> cast(attrs, [:state, :repository_id])
+    |> validate_required([:state, :repository_id])
   end
 end
