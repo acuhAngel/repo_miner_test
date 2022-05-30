@@ -42,7 +42,7 @@ defmodule RepoMinerCore.CodeRepoService.BranchesService do
     |> Repo.insert()
   end
 
-   @doc """
+  @doc """
   Updates a branch.
 
   ## Examples
@@ -88,7 +88,4 @@ defmodule RepoMinerCore.CodeRepoService.BranchesService do
   def change_branch(%Branches{} = branch, attrs \\ %{}) do
     Branches.changeset(branch, attrs)
   end
-
-
-
 end

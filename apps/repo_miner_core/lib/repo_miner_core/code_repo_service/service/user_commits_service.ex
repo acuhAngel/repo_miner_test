@@ -10,7 +10,7 @@ defmodule RepoMinerCore.CodeRepoService.UserCommitsService do
     Repo.all(from(u in UserCommits, where: u.repository_id == ^id))
   end
 
-   @doc """
+  @doc """
   Returns the list of user_commits.
 
   ## Examples
@@ -75,5 +75,4 @@ defmodule RepoMinerCore.CodeRepoService.UserCommitsService do
   def change_users__commits(%UserCommits{} = users__commits, attrs \\ %{}) do
     UserCommits.changeset(users__commits, attrs)
   end
-
 end

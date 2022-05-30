@@ -21,5 +21,6 @@ defmodule RepoMinerCore.CodeRepoService.RepositoryService do
   def create_repository(attrs \\ %{}) do
     %Repository{}
     |> Repository.changeset(attrs)
+    |> Repo.insert()
   end
 end

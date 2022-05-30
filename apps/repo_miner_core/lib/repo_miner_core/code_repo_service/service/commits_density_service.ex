@@ -10,7 +10,7 @@ defmodule RepoMinerCore.CodeRepoService.CommitsDensityService do
     Repo.all(from(c in CommitsDensity, where: c.repository_id == ^id))
   end
 
-   @doc """
+  @doc """
   Returns the list of commits_densities.
 
   ## Examples
@@ -87,5 +87,4 @@ defmodule RepoMinerCore.CodeRepoService.CommitsDensityService do
   def change_commits__density(%CommitsDensity{} = commits__density, attrs \\ %{}) do
     CommitsDensity.changeset(commits__density, attrs)
   end
-
 end
