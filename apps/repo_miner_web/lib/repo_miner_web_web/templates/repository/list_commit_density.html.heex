@@ -13,7 +13,7 @@
 
   <body>
     <div class="back">
-        <span><%= link "<= Back", to: Routes.repository_path(@conn, :show_analysis) %></span>
+        <span><%= link "<= Back", to: Routes.repository_path(@conn, :show_analysis, @repository.id) %></span>
     </div>  
     <section>
       <main>
@@ -25,35 +25,16 @@
                   <th>Year</th>
                   <th>Month</th>
                   <th>Commits</th>
-
                 </tr>
               </thead>
               <tbody>
+                <%= for commit_d <- @commits_density do %>
                   <tr>
-                    <td>2020</td>
-                    <td>June</td>
-                    <td>12</td>
+                    <td><%= commit_d.year %></td>
+                    <td><%= commit_d.month %></td>
+                    <td><%= commit_d.commits_count %></td>
                   </tr>
-                  <tr>
-                    <td>2020</td>
-                    <td>September</td>
-                    <td>13</td>
-                  </tr>
-                  <tr>
-                    <td>2021</td>
-                    <td>January</td>
-                    <td>12</td>
-                  </tr>
-                  <tr>
-                    <td>2021</td>
-                    <td>October</td>
-                    <td>12</td>
-                  </tr>
-                  <tr>
-                    <td>2022</td>
-                    <td>March</td>
-                    <td>11</td>
-                  </tr>
+                <% end %>
               </tbody>
             </table>
           </div>

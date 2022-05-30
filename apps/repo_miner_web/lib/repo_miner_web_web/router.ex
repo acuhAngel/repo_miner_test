@@ -23,9 +23,9 @@ defmodule RepoMinerWebWeb.Router do
     post "/repos", RepositoryController, :create_analysis
     get "/again_analysis", RepositoryController, :again_analysis
     put "/repos", RepositoryController, :create_again_analysis
-    get "/show_analysis", RepositoryController, :show_analysis
-    get "/list_commit_user", RepositoryController, :list_commit_user
-    get "/list_commit_density", RepositoryController, :list_commit_density
+    get "/show_analysis/:id", RepositoryController, :show_analysis
+    get "/list_commit_user/:id", RepositoryController, :list_commit_user
+    get "/list_commit_density/:id", RepositoryController, :list_commit_density
   end
 
   # Other scopes may use custom stacks.

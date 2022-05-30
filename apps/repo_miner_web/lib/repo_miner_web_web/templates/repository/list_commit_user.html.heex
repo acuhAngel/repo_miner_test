@@ -16,7 +16,7 @@
 
   <body>
     <div class="back">
-        <span><%= link "<= Back", to: Routes.repository_path(@conn, :show_analysis) %></span>
+        <span><%= link "<= Back", to: Routes.repository_path(@conn, :show_analysis, @repository.id) %></span>
     </div>    
     <section>
       <main>
@@ -30,22 +30,12 @@
                 </tr>
               </thead>
               <tbody>
+                <%= for user_commit <- @user_commits do %>
                   <tr>
-                    <td>tania</td>
-                    <td>10</td>
+                    <td><%=user_commit.username %></td>
+                    <td><%=user_commit.commits_count %></td>                                
                   </tr>
-                  <tr>
-                    <td>caleb</td>
-                    <td>12</td>
-                  </tr>
-                  <tr>
-                    <td>Oswaldo</td>
-                    <td>10</td>
-                  </tr>
-                  <tr>
-                    <td>Luis</td>
-                    <td>11</td>
-                  </tr>
+                <% end %>
                 
               </tbody>
             </table>
