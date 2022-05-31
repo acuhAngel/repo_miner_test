@@ -16,41 +16,54 @@
       <main>
         <div id="card">
           <div id="container">
-                <form action="">
-                  <div class="text">
-                      <label for="name">User</label>
-                      <input class="field" type="text" name="name">    
-                  </div>
-                  <div class="text">
-                    <label for="provider">Provider</label>
-                    <input class="field" type="text" name="provider">    
-                  </div>
-                  <div class="text">
-                    <label for="username">Username</label>
-                    <input class="field" type="text" name="username">    
-                  </div>
-                  <div class="text">
-                    <label for="repo">Repositorio</label>
-                    <input class="field" type="text" name="repo">    
-                  </div>
-                  <div class="text_radio">
-                    <div class="radio">
-                      <label for="public">Public</label>
-                      <input type="radio" name="type_repo" value="public">
-                    </div>
-                    <div class="radio">
-                      <label for="public">Private</label>
-                      <input type="radio" name="type_repo" value="private">
-                    </div>
-                  </div>
-                  <div class="text">
-                    <label for="token">Token</label>
-                    <input class="field" type="text" name="token">    
-                  </div>
-                  <div class="text_button">
-                      <button class="button"> Send</button>
-                  </div>
-              </form>
+            <.form let={f} for={@changeset} action={@action}>
+              <%= if @changeset.action do %>
+                <div class="alert alert-danger">
+                  <p>Oops, something went wrong! Please check the errors below.</p>
+                </div>
+              <% end %>
+              <div class="text">
+                <%= label f, :user_id %>
+                <%= select f, :user_id, Enum.map(@users, fn pt-> {pt.name, pt.id} end) %>
+                <%= error_tag f, :type %>
+              </div>
+              <div class="text">
+                <%= label f, :provider %>
+                <%= select f, :provider, ["github"] %>
+              </div>
+              <div class="text">
+                <%= label f, :username %>
+                <%= text_input f, :username %>
+                <%= error_tag f, :username %>
+              </div>
+              <div class="text">
+                <%= label f, :repository_name %>
+                <%= text_input f, :repository_name %>
+                <%= error_tag f, :repository_name %>
+              </div>
+              <div class="text">
+                <%= label f, :url %>
+                <%= text_input f, :url %>
+              </div>
+
+              <div class="text_radio">
+                <div class="radio">
+                  <label for="public">Public</label>
+                  <input type="radio" name="type_repo" value="public">
+                </div>
+                <div class="radio">
+                  <label for="public">Private</label>
+                  <input type="radio" name="type_repo" value="private">
+                </div>
+              </div>
+              <div class="text">
+                <label for="token">Token</label>
+                <input class="field" type="text" name="token">    
+              </div>
+              <div>
+                <%= submit "Save" %>
+              </div>
+            </.form>
           </div>
         </div>
       </main>
