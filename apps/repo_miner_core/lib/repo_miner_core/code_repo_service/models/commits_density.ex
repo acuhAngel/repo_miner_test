@@ -18,7 +18,7 @@ defmodule RepoMinerCore.CodeRepoService.CommitsDensity do
 
   def changeset(commits_density, attrs \\ %{}) do
     commits_density
-    |> cast(attrs, [:year, :month, :repository_id])
+    |> cast(attrs, [:year, :month, :commits_count, :repository_id])
     |> validate_required([:repository_id, :year, :month])
   end
 end

@@ -3,6 +3,7 @@ defmodule RepoMinerAnalysis.Worker do
     Repo Analyzer process pool worker.
   """
 
+  alias RepoMinerCore.CodeRepoService
   use GenServer
 
   def start_link(_) do
@@ -35,6 +36,29 @@ defmodule RepoMinerAnalysis.Worker do
         # Write result and successful state to database
         IO.puts(inspect(repo_info))
         :ok
+
+        # Set status as ready
+        CodeRepoService.StatusService.get_status!(repo_map["repo_id"])
+        |> CodeRepoService.StatusService.update_status(%{status: "ready"})
+
+        # Write histogram
+        Enum.each(repo_info.monthly_commits_histogram, fn {{year, month}, num_commits} ->
+          CodeRepoService.CommitsDensityService.create_commits__density(%{
+            year: year,
+            month: month,
+            commits_count: num_commits,
+            repository_id: repo_map["repo_id"]
+          })
+        end)
+
+        # Write commits by user
+        Enum.each(repo_info.user_commits_histogram, fn {user, user_commits} ->
+          CodeRepoService.UserCommitsService.create_users__commits(%{
+            username: user,
+            commits_count: user_commits,
+            repository_id: repo_map["repo_id"]
+          })
+        end)
 
       {:error, _error_msg} ->
         # write error state to database
