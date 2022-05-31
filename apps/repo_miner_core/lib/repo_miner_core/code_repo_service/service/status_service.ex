@@ -7,8 +7,7 @@ defmodule RepoMinerCore.CodeRepoService.StatusService do
   alias RepoMinerCore.CodeRepoService.Status
 
   def get_status!(repo_id) do
-    status = Repo.get_by(Status, repository_id: repo_id)
-    status.state
+    Repo.get_by(Status, repository_id: repo_id)
   end
 
   @doc """
