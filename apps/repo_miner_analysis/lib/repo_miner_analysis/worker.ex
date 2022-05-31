@@ -33,13 +33,14 @@ defmodule RepoMinerAnalysis.Worker do
     case result do
       {:ok, repo_info} ->
         clean_registers(repo_map["repo_id"])
-        set_status(repo_map["repo_id"], "ready")
+        set_status(repo_map["repo_id"], :ready)
+        write_commits_on_main(repo_info.num_commits, repo_map["repo_id"])
         write_histogram(repo_info.monthly_commits_histogram, repo_map["repo_id"])
         write_user_commits(repo_info.user_commits_histogram, repo_map["repo_id"])
         :ok
 
       {:error, _error_msg} ->
-        set_status(repo_map["repo_id"], "error")
+        set_status(repo_map["repo_id"], :error)
         :error
     end
   end
@@ -58,7 +59,13 @@ defmodule RepoMinerAnalysis.Worker do
 
   defp set_status(repo_id, status) do
     CodeRepoService.StatusService.get_status!(repo_id)
-    |> CodeRepoService.StatusService.update_status(%{status: status})
+    |> CodeRepoService.StatusService.update_status(%{state: status})
+  end
+
+  def write_commits_on_main(total_commits, repo_id) do
+    repo = CodeRepoService.RepositoryService.get_repository!(repo_id)
+
+    CodeRepoService.RepositoryService.update_repository(repo, %{main_commits_count: total_commits})
   end
 
   defp write_histogram(monthly_commits_histogram, repo_id) do
