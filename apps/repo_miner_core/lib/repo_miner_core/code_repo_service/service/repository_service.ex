@@ -24,6 +24,12 @@ defmodule RepoMinerCore.CodeRepoService.RepositoryService do
     |> Repo.insert()
   end
 
+  def update_repository(%Repository{} = repo, attrs) do
+    repo
+    |> Repository.changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_repository(repo_id) do
     repository = get_repository!(repo_id)
     Repo.delete(repository)
