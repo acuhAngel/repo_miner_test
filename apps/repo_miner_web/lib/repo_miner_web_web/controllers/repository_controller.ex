@@ -24,15 +24,22 @@ defmodule RepoMinerWebWeb.RepositoryController do
   end
 
   def create_analysis(conn, %{"repository" => repository_params}) do
-
     users = UserService.list_users()
+
     case RepositoryService.create_repository(repository_params) do
       {:ok, repository} ->
         conn
         |> put_flash(:info, "Analisis created successfully.")
         |> redirect(to: Routes.repository_path(conn, :show_analysis, repository))
+
         StatusService.create_status(%{state: :pending, repository_id: repository.id})
-        rp = %{repo_url: repository_params["url"], token: repository_params["token"], repo_id: repository.id}
+
+        rp = %{
+          repo_url: repository_params["url"],
+          token: repository_params["token"],
+          repo_id: repository.id
+        }
+
         RepoMinerWeb.Producer.send(AMQPSender, :analyze, rp)
 
       {:error, %Ecto.Changeset{} = changeset} ->
