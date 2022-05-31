@@ -18,7 +18,8 @@ defmodule RepoMinerCore.RepositoryServiceFixtures do
         repository_name: "some repository name",
         url: "some url",
         user_id: user.id,
-        main_commits_count: 42
+        main_commits_count: 42,
+        token: "some token"
       })
       |> RepoMinerCore.CodeRepoService.RepositoryService.create_repository()
 
