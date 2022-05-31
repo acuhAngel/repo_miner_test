@@ -6,6 +6,7 @@ defmodule RepoMinerWebWeb.RepositoryController do
   alias RepoMinerCore.CodeRepoService.BranchesService
   alias RepoMinerCore.CodeRepoService.UserCommitsService
   alias RepoMinerCore.CodeRepoService.CommitsDensityService
+  alias RepoMinerCore.CodeRepoService.StatusService
   alias RepoMinerCore.UserService
 
   # alias RepoMinerWeb.Respository
@@ -23,15 +24,23 @@ defmodule RepoMinerWebWeb.RepositoryController do
   end
 
   def create_analysis(conn, %{"repository" => repository_params}) do
-    rp = %{repo_url: repository_params["url"], token: nil}
     users = UserService.list_users()
-    RepoMinerWeb.Producer.send(AMQPSender, :analyze, rp)
 
     case RepositoryService.create_repository(repository_params) do
       {:ok, repository} ->
         conn
         |> put_flash(:info, "Analisis created successfully.")
         |> redirect(to: Routes.repository_path(conn, :show_analysis, repository))
+
+        StatusService.create_status(%{state: :pending, repository_id: repository.id})
+
+        rp = %{
+          repo_url: repository_params["url"],
+          token: repository_params["token"],
+          repo_id: repository.id
+        }
+
+        RepoMinerWeb.Producer.send(AMQPSender, :analyze, rp)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new_analysis.html",
@@ -69,5 +78,14 @@ defmodule RepoMinerWebWeb.RepositoryController do
       repository: repository,
       commits_density: commits_density
     )
+  end
+
+  def delete(conn, %{"id" => id}) do
+    repository = RepositoryService.get_repository!(id)
+    {:ok, _repository} = RepositoryService.delete_repository(repository)
+
+    conn
+    |> put_flash(:info, "Pet deleted successfully.")
+    |> redirect(to: Routes.repository_path(conn, :list_repos))
   end
 end
