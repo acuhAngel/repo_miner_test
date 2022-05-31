@@ -11,11 +11,6 @@ defmodule RepoMinerCore.CodeRepoService.StatusService do
     status.state
   end
 
-  def get_status!(repo_id) do
-    status = Repo.get_by(Status, repository_id: repo_id)
-    status.state
-  end
-
   @doc """
   Returns the list of status.
 

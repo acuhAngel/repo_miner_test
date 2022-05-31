@@ -4,9 +4,9 @@ defmodule RepoMinerCore.RepositoryServiceTest do
   alias RepoMinerCore.CodeRepoService.RepositoryService
 
   describe "repository" do
-    alias RepoMinerCore.CodeRepoService.Repository
+    # alias RepoMinerCore.CodeRepoService.Repository
 
-    import RepoMinerCore.RepositoryServiceFixtures
+    # import RepoMinerCore.RepositoryServiceFixtures
 
     @invalid_attrs %{username: nil, provider: nil, repository_name: nil, url: nil, user_id: nil}
 
@@ -23,16 +23,16 @@ defmodule RepoMinerCore.RepositoryServiceTest do
     end
 
     test "create_repository/1 with valid data creates a repository" do
-      user = user_fixture()
+      # user = user_fixture()
 
-      valid_attrs = %{
-        username: "some username",
-        provider: :github,
-        repository_name: "some name",
-        url: "some url",
-        user_id: user.id,
-        main_commits_count: 42
-      }
+      # valid_attrs = %{
+      #   username: "some username",
+      #   provider: :github,
+      #   repository_name: "some name",
+      #   url: "some url",
+      #   user_id: user.id,
+      #   main_commits_count: 42
+      # }
 
       # assert {:ok, %Repository{} = repository} = RepositoryService.create_repository(valid_attrs)
       # assert repository.username == "some username"
