@@ -12,6 +12,8 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
     field(:provider, Ecto.Enum, values: [:github])
     field(:repository_name, :string)
     field(:url, :string)
+    field(:main_commits_count, :integer)
+    field(:token, :string)
     belongs_to(:user, RepoMinerCore.UserService.User)
     has_many(:branches, RepoMinerCore.CodeRepoService.Branches)
     has_one(:status, RepoMinerCore.CodeRepoService.Status)
@@ -24,7 +26,7 @@ defmodule RepoMinerCore.CodeRepoService.Repository do
 
   def changeset(repository, attrs \\ %{}) do
     repository
-    |> cast(attrs, [:username, :provider, :repository_name, :url, :user_id])
+    |> cast(attrs, [:username, :provider, :repository_name, :url, :user_id, :main_commits_count])
     |> validate_required([:username, :provider, :repository_name, :url])
   end
 end

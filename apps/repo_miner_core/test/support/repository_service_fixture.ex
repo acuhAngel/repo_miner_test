@@ -17,7 +17,8 @@ defmodule RepoMinerCore.RepositoryServiceFixtures do
         provider: :github,
         repository_name: "some repository name",
         url: "some url",
-        user_id: user.id
+        user_id: user.id,
+        main_commits_count: 42
       })
       |> RepoMinerCore.CodeRepoService.RepositoryService.create_repository()
 
