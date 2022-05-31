@@ -37,6 +37,7 @@ defmodule RepoMinerAnalysis.Worker do
         write_histogram(repo_info.monthly_commits_histogram, repo_map["repo_id"])
         write_user_commits(repo_info.user_commits_histogram, repo_map["repo_id"])
         :ok
+
       {:error, _error_msg} ->
         set_status(repo_map["repo_id"], "error")
         :error
@@ -44,8 +45,15 @@ defmodule RepoMinerAnalysis.Worker do
   end
 
   defp clean_registers(repo_id) do
-    Enum.each(CodeRepoService.CommitsDensityService.get_commits_density!(repo_id), &CodeRepoService.CommitsDensityService.delete_commits__density/1)
-    Enum.each(CodeRepoService.UserCommitsService. get_user_commits!(repo_id), &CodeRepoService.UserCommitsService.delete_users__commits/1)
+    Enum.each(
+      CodeRepoService.CommitsDensityService.get_commits_density!(repo_id),
+      &CodeRepoService.CommitsDensityService.delete_commits__density/1
+    )
+
+    Enum.each(
+      CodeRepoService.UserCommitsService.get_user_commits!(repo_id),
+      &CodeRepoService.UserCommitsService.delete_users__commits/1
+    )
   end
 
   defp set_status(repo_id, status) do
@@ -56,21 +64,21 @@ defmodule RepoMinerAnalysis.Worker do
   defp write_histogram(monthly_commits_histogram, repo_id) do
     Enum.each(monthly_commits_histogram, fn {{year, month}, num_commits} ->
       CodeRepoService.CommitsDensityService.create_commits__density(%{
-            year: year,
-            month: month,
-            commits_count: num_commits,
-            repository_id: repo_id
-          })
-        end)
+        year: year,
+        month: month,
+        commits_count: num_commits,
+        repository_id: repo_id
+      })
+    end)
   end
 
   defp write_user_commits(user_commits_histogram, repo_id) do
-     Enum.each(user_commits_histogram, fn {user, user_commits} ->
-          CodeRepoService.UserCommitsService.create_users__commits(%{
-            username: user,
-            commits_count: user_commits,
-            repository_id: repo_id
-          })
-        end)
+    Enum.each(user_commits_histogram, fn {user, user_commits} ->
+      CodeRepoService.UserCommitsService.create_users__commits(%{
+        username: user,
+        commits_count: user_commits,
+        repository_id: repo_id
+      })
+    end)
   end
 end
