@@ -28,6 +28,7 @@ defmodule RepoMinerWebWeb.Router do
     get "/show_analysis/:id", RepositoryController, :show_analysis
     get "/list_commit_user/:id", RepositoryController, :list_commit_user
     get "/list_commit_density/:id", RepositoryController, :list_commit_density
+    delete "/delete/:id", RepositoryController, :delete
 
     resources "/users", UserController
     # get "/users", UserController, :index

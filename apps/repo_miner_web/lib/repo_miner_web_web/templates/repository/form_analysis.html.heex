@@ -24,7 +24,7 @@
               <% end %>
               <div class="text">
                 <%= label f, :user_id %>
-                <%= select f, :user_id, Enum.map(@users, fn pt-> {pt.name, pt.id} end) %>
+                <%= select f, :user_id, Enum.map(@users, fn pt-> {pt.handle, pt.id} end) %>
                 <%= error_tag f, :type %>
               </div>
               <div class="text">
@@ -57,8 +57,8 @@
                 </div>
               </div>
               <div class="text">
-                <label for="token">Token</label>
-                <input class="field" type="text" name="token">    
+                 <%= label f, :token %>
+                <%= text_input f, :token %>    
               </div>
               <div>
                 <%= submit "Save" %>
