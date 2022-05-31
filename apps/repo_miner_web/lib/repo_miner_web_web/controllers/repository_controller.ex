@@ -1,10 +1,12 @@
 defmodule RepoMinerWebWeb.RepositoryController do
   use RepoMinerWebWeb, :controller
 
+  alias RepoMinerCore.CodeRepoService.Repository
   alias RepoMinerCore.CodeRepoService.RepositoryService
   alias RepoMinerCore.CodeRepoService.BranchesService
   alias RepoMinerCore.CodeRepoService.UserCommitsService
   alias RepoMinerCore.CodeRepoService.CommitsDensityService
+  alias RepoMinerCore.UserService
 
   # alias RepoMinerWeb.Respository
   # alias RepoMinerWeb.Respository.Repository
@@ -15,11 +17,28 @@ defmodule RepoMinerWebWeb.RepositoryController do
   end
 
   def new_analysis(conn, _params) do
-    render(conn, "new_analysis.html")
+    changeset = RepositoryService.change_repository(%Repository{})
+    users = UserService.list_users()
+    render(conn, "new_analysis.html", users: users, changeset: changeset)
   end
 
-  def create_analysis(conn, _params) do
-    render(conn, "show_analysis.hmtl")
+  def create_analysis(conn, %{"repository" => repository_params}) do
+    rp = %{repo_url: repository_params["url"], token: nil}
+    users = UserService.list_users()
+    RepoMinerWeb.Producer.send(AMQPSender, :analyze, rp)
+
+    case RepositoryService.create_repository(repository_params) do
+      {:ok, repository} ->
+        conn
+        |> put_flash(:info, "Analisis created successfully.")
+        |> redirect(to: Routes.repository_path(conn, :show_analysis, repository))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new_analysis.html",
+          users: users,
+          changeset: changeset
+        )
+    end
   end
 
   def again_analysis(conn, _params) do
