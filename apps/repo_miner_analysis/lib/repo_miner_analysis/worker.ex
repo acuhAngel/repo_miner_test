@@ -18,7 +18,6 @@ defmodule RepoMinerAnalysis.Worker do
 
   @impl true
   def handle_cast({:analyze, repo_json}, miner_py_pid) do
-    IO.puts("OK")
     call_analyzer(repo_json, miner_py_pid)
     {:noreply, miner_py_pid}
   end
@@ -33,36 +32,45 @@ defmodule RepoMinerAnalysis.Worker do
 
     case result do
       {:ok, repo_info} ->
-        # Write result and successful state to database
-        IO.puts(inspect(repo_info))
+        clean_registers(repo_map["repo_id"])
+        set_status(repo_map["repo_id"], "ready")
+        write_histogram(repo_info.monthly_commits_histogram, repo_map["repo_id"])
+        write_user_commits(repo_info.user_commits_histogram, repo_map["repo_id"])
         :ok
+      {:error, _error_msg} ->
+        set_status(repo_map["repo_id"], "error")
+        :error
+    end
+  end
 
-        # Set status as ready
-        CodeRepoService.StatusService.get_status!(repo_map["repo_id"])
-        |> CodeRepoService.StatusService.update_status(%{status: "ready"})
+  defp clean_registers(repo_id) do
+    Enum.each(CodeRepoService.CommitsDensityService.get_commits_density!(repo_id), &CodeRepoService.CommitsDensityService.delete_commits__density/1)
+    Enum.each(CodeRepoService.UserCommitsService. get_user_commits!(repo_id), &CodeRepoService.UserCommitsService.delete_users__commits/1)
+  end
 
-        # Write histogram
-        Enum.each(repo_info.monthly_commits_histogram, fn {{year, month}, num_commits} ->
-          CodeRepoService.CommitsDensityService.create_commits__density(%{
+  defp set_status(repo_id, status) do
+    CodeRepoService.StatusService.get_status!(repo_id)
+    |> CodeRepoService.StatusService.update_status(%{status: status})
+  end
+
+  defp write_histogram(monthly_commits_histogram, repo_id) do
+    Enum.each(monthly_commits_histogram, fn {{year, month}, num_commits} ->
+      CodeRepoService.CommitsDensityService.create_commits__density(%{
             year: year,
             month: month,
             commits_count: num_commits,
-            repository_id: repo_map["repo_id"]
+            repository_id: repo_id
           })
         end)
+  end
 
-        # Write commits by user
-        Enum.each(repo_info.user_commits_histogram, fn {user, user_commits} ->
+  defp write_user_commits(user_commits_histogram, repo_id) do
+     Enum.each(user_commits_histogram, fn {user, user_commits} ->
           CodeRepoService.UserCommitsService.create_users__commits(%{
             username: user,
             commits_count: user_commits,
-            repository_id: repo_map["repo_id"]
+            repository_id: repo_id
           })
         end)
-
-      {:error, _error_msg} ->
-        # write error state to database
-        :error
-    end
   end
 end
