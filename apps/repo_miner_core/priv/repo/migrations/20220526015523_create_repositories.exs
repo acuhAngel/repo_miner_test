@@ -7,6 +7,8 @@ defmodule RepoMinerCore.Repo.Migrations.CreateRepositories do
       add :provider,           :string
       add :repository_name,    :string
       add :url,                :string
+      add :main_commits_count, :int
+      add :token,              :string
       timestamps()
     end
   end
